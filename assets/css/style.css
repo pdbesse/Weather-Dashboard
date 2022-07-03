@@ -1,0 +1,38 @@
+#search-container {
+    background: #11a5bf;
+    border: 1px solid black;
+}
+
+#current-weather {
+    border: 1px solid black;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+  }
+  
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+    color: black;
+    border-radius: 0;
+    border-bottom: 5px solid black;
+  }
+  
+  
+.saveBtn {
+    border-left: 1px solid black;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #06AED5;
+    color: white;
+  }
+  
+.saveBtn:hover {
+    background: #06afd548;
+    color: black;
+    transition: all .3s ease-in-out;
+  }
+  

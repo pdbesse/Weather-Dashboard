@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="reset" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+
+  <body>
+    <header class="jumbotron text-container">
+      <h1 class="display-3">Weather Dashboard</h1>
+      <p class="lead">Search current and future weather for your city</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+
+    <main>
+        <div class="container">
+        <!-- left side: search form top and searched city and current weather bottom -->
+            <div class="row">
+                <!-- search form -->
+                <div class="col-4" id="search-container">
+                    <div class="row">
+                        <form class="form-group col-12">
+                            <label for="search">Enter a City Here</label>
+                            <input type="city" class="form-control" id="search-city" placeholder="City"> 
+                            <button type="submit" class="btn btn-outline-secondary fa fa-search">Search</button>
+                        </form> 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 border border-dark">
+                            <!-- searched cities button box -->
+                            <ul>
+                            <!-- searched cities go here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- right side: current weather top and 5 day forecast bottom -->
+                <div class="col-8 border border-dark" id="weather-data">
+                    <!-- searched city and current weather -->
+                    <div class="row">
+                        <div class="col-12 border border-dark" id="searched-city">
+                            <!-- current city and weather here -->
+                        </div>
+                        <div class="row">
+                            <div class="col-12 border-border dark">
+                                <!-- 5 day forecast here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
