@@ -12,6 +12,7 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
+var searchedCity = $("#search-city").val();
 var searchedCities = []
 
 var today = moment();
@@ -20,10 +21,14 @@ $("#currentDay").text(today.format("MMMM Do, YYYY"));
 $("#search-button").on("click", function() {
     var searchedCity = $("#search-city").val();
     searchedCities.push(searchedCity);
-    // need to somehow store multiple properties in array for single LS key
+
+    // need to store multiple properties in array for single LS key
+
     localStorage.setItem("city", JSON.stringify(searchedCities))
-    console.log(searchedCity);
-    console.log(searchedCities);
+
+    /* console.log(searchedCity);
+    console.log(searchedCities); */
+
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
 
@@ -39,23 +44,37 @@ function getLatLon(searchedCity) {
     fetch(latLonURL).then(function (response) {
         return response.json();})
         .then(function (data) {
-            console.log(data);
-        for (var i = 0; i < data.length; i++) {
 
-            console.log("lat", data[i].lat);
-            console.log("lon", data[i].lon);
+            /* console.log(data); */
 
-            var searchCityLat = data[i].lat;
-            var searchCityLon = data[i].lon
+            for (var i = 0; i < data.length; i++) {
 
-            console.log(searchCityLat);
-            console.log(searchCityLon);
-        }
+                /* console.log("lat", data[i].lat);
+                console.log("lon", data[i].lon); */
+
+                var searchCityLat = data[i].lat;
+                var searchCityLon = data[i].lon
+
+                /* console.log(searchCityLat);
+                console.log(searchCityLon); */
+
+                getCurrentWeather(searchCityLat, searchCityLon)
+            }
         })
+    
 }
 
 // function to get weather
-function getWeather() {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}"
-}
+function getCurrentWeather(searchCityLat, searchCityLon) {
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&exclude=currentminutealerts&appid=${key}`;
+    fetch(weatherURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+
+            /* console.log(data); */
+            /* console.log(data.daily[1]); */
+            console.log(data.daily[1].weather);
+    }
+)}
 
