@@ -12,6 +12,8 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
+var searchedCities = []
+
 var today = moment();
 $("#currentDay").text(today.format("MMMM Do, YYYY"));
 
@@ -23,9 +25,12 @@ $("#currentDay").text(today.format("MMMM Do, YYYY"));
 // limit	optional	Number of the locations in the API response (up to 5 results can be returned in the API response)
 
 $("#search-button").on("click", function() {
-    var searchedCity = $(this).siblings("#search-city").val();
-    localStorage.setItem("city", searchedCity)
+    var searchedCity = $("#search-city").val();
+    searchedCities.push(searchedCity);
+    // need to somehow store multiple properties in array for single LS key
+    localStorage.setItem("city", JSON.stringify(searchedCities))
     console.log(searchedCity);
+    console.log(searchedCities);
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
 })

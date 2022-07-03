@@ -1,5 +1,9 @@
+body {
+    background-color: #d4d4d4;
+}
+
 #search-container {
-    background: #11a5bf;
+    background: #d6d6d6;
     border: 1px solid black;
 }
 
@@ -23,7 +27,7 @@ body {
   
 .jumbotron {
     text-align: center;
-    background-color: transparent;
+    background-color: #887491;
     color: black;
     border-radius: 0;
     border-bottom: 5px solid black;
