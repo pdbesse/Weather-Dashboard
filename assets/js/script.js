@@ -12,18 +12,10 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
-var key = "5d5fe60d12dae6eed2bd4a396bd88119"
 var searchedCities = []
 
 var today = moment();
 $("#currentDay").text(today.format("MMMM Do, YYYY"));
-
-// Geocoding API
-// http:// api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
-// Parameters
-// q	required	City name, state code (only for the US) and country code divided by comma. Please use ISO 3166 country codes.
-// appid	required	Your unique API key (you can always find it on your account page under the "API key" tab)
-// limit	optional	Number of the locations in the API response (up to 5 results can be returned in the API response)
 
 $("#search-button").on("click", function() {
     var searchedCity = $("#search-city").val();
@@ -34,30 +26,36 @@ $("#search-button").on("click", function() {
     console.log(searchedCities);
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
+
+    getLatLon(searchedCity)
     
-    getWeather()
-    getLatLon()
 })
 
-// function to get weather
-function getWeather() {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}"
-}
-
 // function to get lat/lon
-function getLatLon() {
-    /* var latLonURL = "http://api.openweathermap.org/geo/1.0/direct?q={searchedCity}&appid={key}"; */
-    var latLonURL = "https://api.openweathermap.org/geo/1.0/direct?q=Boston&appid=5d5fe60d12dae6eed2bd4a396bd88119";
+function getLatLon(searchedCity) {
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var latLonURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&appid=${key}`;
 
     fetch(latLonURL).then(function (response) {
         return response.json();})
         .then(function (data) {
             console.log(data);
         for (var i = 0; i < data.length; i++) {
+
             console.log("lat", data[i].lat);
             console.log("lon", data[i].lon);
+
+            var searchCityLat = data[i].lat;
+            var searchCityLon = data[i].lon
+
+            console.log(searchCityLat);
+            console.log(searchCityLon);
         }
-            /* var searchCityLat = data[i].lat;
-            var searchCityLon = data[i].lon */
         })
 }
+
+// function to get weather
+function getWeather() {
+    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}"
+}
+
