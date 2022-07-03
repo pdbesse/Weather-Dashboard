@@ -37,17 +37,17 @@
                 <!-- search form -->
                 <div class="col-4" id="search-container">
                     <div class="row">
-                        <form class="form-group col-12">
-                            <label for="search">Enter a City Here</label>
-                            <input type="city" class="form-control" id="search-city" placeholder="City"> 
-                            <button type="submit" class="btn btn-outline-secondary fa fa-search">Search</button>
-                        </form> 
+                        <div class="form-group col-12">
+                            <label for="city-search"></label>
+                            <input type="text" class="form-control" id="search-city" placeholder="City"> 
+                            <button type="button" class="btn btn-outline-secondary m-2" id="search-button">Search</button>
+                        </div> 
                     </div>
 
                     <div class="row">
                         <div class="col-12 border border-dark">
                             <!-- searched cities button box -->
-                            <ul>
+                            <ul id="search-city-list">
                             <!-- searched cities go here -->
                             </ul>
                         </div>
