@@ -35,16 +35,29 @@ $("#search-button").on("click", function() {
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
     
+    getWeather()
     getLatLon()
 })
 
+// function to get weather
+function getWeather() {
+    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}"
+}
 
+// function to get lat/lon
 function getLatLon() {
-    /* var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchedCity + "&appid=" + key; */
-    var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=Boston&appid=5d5fe60d12dae6eed2bd4a396bd88119";
+    /* var latLonURL = "http://api.openweathermap.org/geo/1.0/direct?q={searchedCity}&appid={key}"; */
+    var latLonURL = "https://api.openweathermap.org/geo/1.0/direct?q=Boston&appid=5d5fe60d12dae6eed2bd4a396bd88119";
 
-    fetch(requestURL).then(function (response) {
-        console.log(response);
-        return response.json();
-    }
-)}
+    fetch(latLonURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+            console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            console.log("lat", data[i].lat);
+            console.log("lon", data[i].lon);
+        }
+            /* var searchCityLat = data[i].lat;
+            var searchCityLon = data[i].lon */
+        })
+}
