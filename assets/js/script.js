@@ -12,6 +12,7 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
+var key = "5d5fe60d12dae6eed2bd4a396bd88119"
 var searchedCities = []
 
 var today = moment();
@@ -33,9 +34,17 @@ $("#search-button").on("click", function() {
     console.log(searchedCities);
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
+    
+    getLatLon()
 })
 
 
 function getLatLon() {
-    var requestURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchedCity + "&limit={limit}&appid={API key}"
-} 
+    /* var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchedCity + "&appid=" + key; */
+    var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=Boston&appid=5d5fe60d12dae6eed2bd4a396bd88119";
+
+    fetch(requestURL).then(function (response) {
+        console.log(response);
+        return response.json();
+    }
+)}
