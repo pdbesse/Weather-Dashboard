@@ -16,8 +16,12 @@ var searchedCity = $("#search-city").val();
 var searchedCities = JSON.parse(localStorage.getItem("city")) || [];
 for (let i = 0; i < searchedCities.length; i++) {
     var newLI = $("<li>")
-    newLI.text($("#search-city").val());
-    newLI.on("click", recall());
+    newLI.text(searchedCities[i]).val();
+    newLI.on("click", function (event){ 
+        $("#search-city").val(event.target.textContent);
+        search()
+        })
+    $("#search-city-list").append(newLI);
 
 }
 
@@ -41,7 +45,7 @@ function search() {
      searchedCities.push(searchedCity);
         var newLI = $("<li>")
         newLI.text(searchedCity)
-        newLI.on("click", search)
+        /* newLI.on("click", search) */
         $("#search-city-list").append(newLI);
     }
     // need to store multiple properties in array for single LS key
@@ -58,22 +62,6 @@ function search() {
     getLatLon(searchedCity)
     
 }
-
-function recall() {
-    var recallCity = $(this).val();
-    console.log($this.val());
-    var recallCities = JSON.parse(localStorage.getItem("city"))
-    for (let i = 0; i < recallCities.length; i++) {
-        if (recallCities[i] = recallCity) {
-            searchedCity = recallCity;
-        }
-    
-
-    $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
-
-    getLatLon(searchedCity)
-    
-    }}
 
 // function to get lat/lon
 function getLatLon(searchedCity) {
@@ -118,12 +106,12 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             var currentIcon = data.current.weather[0].icon
             var currentIconURL = `http://openweathermap.org/img/wn/${currentIcon}@2x.png`;
             console.log(currentIconURL);
-            /* $("#current-icon").attr("src", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`);*/
-            $("#current-icon").append("<img src=" + currentIconURL + "></img>");
-            $("#temp").text(Math.floor(data.current.temp) + "&#176");
+
+            $("#current-icon").attr("src", currentIconURL);
+            $("#temp").text(Math.floor(data.current.temp) + " degrees F");
             $("#humidity").text(data.current.humidity + "%");
             $("#wind-speed").text(Math.floor(data.current.wind_speed) + " mph");
-            $("#uv-index").text(data.current.uvi);
+            $("#uv-index").text("UVI: " + data.current.uvi);
 
             /* $("#temp").append("<div>" + data.current.temp + " &#176F" + "</div>");
             $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
