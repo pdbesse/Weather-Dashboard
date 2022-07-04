@@ -16,9 +16,8 @@ var searchedCity = $("#search-city").val();
 var searchedCities = JSON.parse(localStorage.getItem("city")) || [];
 for (let i = 0; i < searchedCities.length; i++) {
     var newLI = $("<li>")
-    newLI.text(searchedCities[i])
-    newLI.on("click", search)
-    $("#search-city-list").append(newLI);
+    newLI.text($("#search-city").val());
+    newLI.on("click", recall());
 
 }
 
@@ -32,8 +31,8 @@ function search() {
 
     var alreadyExist = false
     for (let i = 0; i < searchedCities.length; i++) {
-       console.log(searchedCities[i]);
-       console.log(searchedCity);
+       /* console.log(searchedCities[i]);
+       console.log(searchedCity); */
         if (searchedCities[i] == searchedCity) {
            alreadyExist = true;
         }
@@ -59,6 +58,22 @@ function search() {
     getLatLon(searchedCity)
     
 }
+
+function recall() {
+    var recallCity = $(this).val();
+    console.log($this.val());
+    var recallCities = JSON.parse(localStorage.getItem("city"))
+    for (let i = 0; i < recallCities.length; i++) {
+        if (recallCities[i] = recallCity) {
+            searchedCity = recallCity;
+        }
+    
+
+    $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
+
+    getLatLon(searchedCity)
+    
+    }}
 
 // function to get lat/lon
 function getLatLon(searchedCity) {
@@ -105,10 +120,10 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             console.log(currentIconURL);
             /* $("#current-icon").attr("src", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`);*/
             $("#current-icon").append("<img src=" + currentIconURL + "></img>");
-            $("#temp").append("<div>" + Math.floor(data.current.temp) + " &#176F" + "</div>");
-            $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
-            $("#wind-speed").append("<div>" + Math.floor(data.current.wind_speed) + " mph" + "</div>");
-            $("#uv-index").append("<div>" + data.current.uvi + "</div>");
+            $("#temp").text(Math.floor(data.current.temp) + "&#176");
+            $("#humidity").text(data.current.humidity + "%");
+            $("#wind-speed").text(Math.floor(data.current.wind_speed) + " mph");
+            $("#uv-index").text(data.current.uvi);
 
             /* $("#temp").append("<div>" + data.current.temp + " &#176F" + "</div>");
             $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
