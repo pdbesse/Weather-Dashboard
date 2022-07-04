@@ -22,7 +22,6 @@ for (let i = 0; i < searchedCities.length; i++) {
         search()
         })
     $("#search-city-list").append(newLI);
-
 }
 
 var today = moment();
@@ -117,8 +116,33 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
             $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
             $("#uv-index").append("<div>" + data.current.uvi + "</div>"); */
-    }
-)}
+    })
+        getFutureWeather(searchCityLat, searchCityLon)
+}
 
 // UV color change = assign uvi to var and use if/else if to change class background color
 // 
+
+function getFutureWeather(searchCityLat, searchCityLon) {
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&alerts&appid=${key}`;
+    fetch(weatherURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+            for (i = 1; i < 6; i++) {
+
+            }
+            var futureUnix = data.daily.dt;
+            var futureDate = moment.unix(futureUnix).format("MM/DD/YY")
+            console.log(futureDate);
+            var futureIcon = data.daily[i].weather[0].icon
+            var futureIconURL = `http://openweathermap.org/img/wn/${futureIcon}@2x.png`;
+            console.log(futureIconURL);
+            
+            var futureTemp = Math.floor(data.daily[i].temp.day);
+            console.log(futureTemp);
+            var futureHumidity = data.daily[i].humidity;
+            console.log(futureHumidity);
+
+            })
+}
