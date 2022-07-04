@@ -76,7 +76,9 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             console.log(data);
             /* console.log(data.daily[1]); */
             console.log(data.current);
-        
+
+            /* var currentIcon = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`; */
+            $("#current-icon").attr("src=", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`);
             $("#temp").append("<div>" + data.current.temp + "</div>");
             $("#humidity").append("<div>" + data.current.humidity + "</div>");
             $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
