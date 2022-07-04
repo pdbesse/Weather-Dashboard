@@ -31,6 +31,7 @@ $("#search-button").on("click", function() {
 
     // need to append searchedCity to ul to #search-city-list
     $("#search-city-list").append("<li>" + searchedCity + "</li>");
+    $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
 
     getLatLon(searchedCity)
     
@@ -67,14 +68,19 @@ function getLatLon(searchedCity) {
 // function to get weather
 function getCurrentWeather(searchCityLat, searchCityLon) {
     var key = "5d5fe60d12dae6eed2bd4a396bd88119";
-    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&exclude=currentminutealerts&appid=${key}`;
+    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&alerts&appid=${key}`;
     fetch(weatherURL).then(function (response) {
         return response.json();})
         .then(function (data) {
 
-            /* console.log(data); */
+            console.log(data);
             /* console.log(data.daily[1]); */
-            console.log(data.daily[1].weather);
+            console.log(data.current);
+        
+            $("#temp").append("<div>" + data.current.temp + "</div>");
+            $("#humidity").append("<div>" + data.current.humidity + "</div>");
+            $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
+            $("#uv-index").append("<div>" + data.current.uvi + "</div>");
     }
 )}
 

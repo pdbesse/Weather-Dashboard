@@ -11,6 +11,14 @@ body {
     border: 1px solid black;
 }
 
+#weather-data {
+  color: black;
+}
+
+#searched-city {
+  font-size: 20px;
+}
+
 ul {
     list-style-type: none;
 } 
