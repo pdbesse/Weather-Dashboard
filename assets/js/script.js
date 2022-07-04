@@ -13,15 +13,38 @@
 // THEN I am again presented with current and future conditions for that city
 
 var searchedCity = $("#search-city").val();
-var searchedCities = []
+var searchedCities = JSON.parse(localStorage.getItem("city")) || [];
+for (let i = 0; i < searchedCities.length; i++) {
+    var newLI = $("<li>")
+    newLI.text(searchedCities[i])
+    newLI.on("click", search)
+    $("#search-city-list").append(newLI);
+
+}
 
 var today = moment();
 $("#currentDay").text(today.format("MMMM Do, YYYY"));
 
-$("#search-button").on("click", function() {
-    var searchedCity = $("#search-city").val();
-    searchedCities.push(searchedCity);
+$("#search-button").on("click", search)
 
+function search() {
+    var searchedCity = $("#search-city").val();
+
+    var alreadyExist = false
+    for (let i = 0; i < searchedCities.length; i++) {
+       console.log(searchedCities[i]);
+       console.log(searchedCity);
+        if (searchedCities[i] == searchedCity) {
+           alreadyExist = true;
+        }
+    }
+        if (!alreadyExist) {
+     searchedCities.push(searchedCity);
+        var newLI = $("<li>")
+        newLI.text(searchedCity)
+        newLI.on("click", search)
+        $("#search-city-list").append(newLI);
+    }
     // need to store multiple properties in array for single LS key
 
     localStorage.setItem("city", JSON.stringify(searchedCities))
@@ -30,12 +53,12 @@ $("#search-button").on("click", function() {
     console.log(searchedCities); */
 
     // need to append searchedCity to ul to #search-city-list
-    $("#search-city-list").append("<li>" + searchedCity + "</li>");
+    /* $("#search-city-list").append("<li>" + searchedCity + "</li>"); */
     $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
 
     getLatLon(searchedCity)
     
-})
+}
 
 // function to get lat/lon
 function getLatLon(searchedCity) {
@@ -77,12 +100,22 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             /* console.log(data.daily[1]); */
             console.log(data.current);
 
-            /* var currentIcon = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`; */
-            $("#current-icon").attr("src=", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`);
-            $("#temp").append("<div>" + data.current.temp + "</div>");
-            $("#humidity").append("<div>" + data.current.humidity + "</div>");
-            $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
+            var currentIcon = data.current.weather[0].icon
+            var currentIconURL = `http://openweathermap.org/img/wn/${currentIcon}@2x.png`;
+            console.log(currentIconURL);
+            /* $("#current-icon").attr("src", `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`);*/
+            $("#current-icon").append("<img src=" + currentIconURL + "></img>");
+            $("#temp").append("<div>" + Math.floor(data.current.temp) + " &#176F" + "</div>");
+            $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
+            $("#wind-speed").append("<div>" + Math.floor(data.current.wind_speed) + " mph" + "</div>");
             $("#uv-index").append("<div>" + data.current.uvi + "</div>");
+
+            /* $("#temp").append("<div>" + data.current.temp + " &#176F" + "</div>");
+            $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
+            $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
+            $("#uv-index").append("<div>" + data.current.uvi + "</div>"); */
     }
 )}
 
+// UV color change = assign uvi to var and use if/else if to change class background color
+// 
