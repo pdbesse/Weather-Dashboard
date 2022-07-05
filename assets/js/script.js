@@ -107,10 +107,10 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             console.log(currentIconURL);
 
             $("#current-icon").attr("src", currentIconURL);
-            $("#temp").text(Math.floor(data.current.temp) + " degrees F");
-            $("#humidity").text(data.current.humidity + " %");
-            $("#wind-speed").text(Math.floor(data.current.wind_speed) + " mph");
-            $("#uv-index").text("UVI: " + data.current.uvi);
+            $("#temp").text(Math.floor(data.current.temp));
+            $("#humidity").text(data.current.humidity);
+            $("#wind-speed").text(Math.floor(data.current.wind_speed));
+            $("#uv-index").text(data.current.uvi);
 
                 if (data.current.uvi >= 0 && data.current.uvi <= 2) {
                     $("#uv-index").addClass("uvLow")                    
@@ -157,11 +157,11 @@ function getFutureWeather(searchCityLat, searchCityLon) {
             var futureHumidity = data.daily[i].humidity;
             /* console.log(futureHumidity); */
             
-            $("#future-weather").append("<div class = 'col-2' id='future-card'></div>")
-            $("#future-card").append("<h5>" + futureDate + "</h5>");
-            $("#future-card").append(`<img src=${futureIconURL}></img>`);
-            $("#future-card").append("<p>" + futureTemp + " degrees F" + "</p");
-            $("#future-card").append("<p>" + futureHumidity + " %" + "</p");
+            $("#future-weather").append("<div class='card-body border' id='future-card'></div>")
+            $("#future-card").append("<h5 class='card-title'>" + futureDate + "</h5>");
+            $("#future-card").append(`<img  class='card-img' src=${futureIconURL}></img>`);
+            $("#future-card").append("<p class='card-text'>" + futureTemp + "\u00b0 F" + "</p");
+            $("#future-card").append("<p class='card-text'>" + futureHumidity + " %" + "</p");
             }
         })
 }

@@ -59,32 +59,51 @@
                     <!-- searched city and current weather -->
                     <div class="row">
                         <div class="col-12 border border-dark">
-                            <div id="searched-city">
+                            <div class="text-center col-12" id="searched-city">
                             </div>
-                            <img id="current-icon">
-                          
-                            </img>
-                              <div class="col-12" id="weather-data">
+                              <div class="text-center">
+                                <img id="current-icon">
                               
-                                <div class="row" id="temp-humid">
-                                  <div class="col" id="temp">
-                                  </div>
-                                  <div class="col" id="humidity">
-                                  </div>
-                                </div>
-                                <div class="row" id="wind-uv">
-                                  <div class="col" id="wind-speed">
-                                  </div>
-                                  <div class="col" id="uv-index">
-                                  </div>
+                                </img>
                               </div>
+                                <div class="col-12" id="weather-data">
+                                
+                                  <div class="row text-center" id="temp-humid">
+                                    <div class="text-center col border-right border-bottom border-dark">Temperature (&#176;F)
+                                      <div id="temp">
+                                      </div>
+                                    </div>
+                                    <div class="text-center col border-left border-bottom border-dark">Humidity (%)
+                                      <div id="humidity">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row" id="wind-uv">
+                                    <div class="text-center col border-top border-right border-dark">Wind Speed (mph)
+                                      <div class="text-center" id="wind-speed">
+                                      </div>
+                                    </div>
+                                    <div class="text-center col border-top border-left border-dark">UV Index
+                                      <div class="text-center" id="uv-index">
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
                         <!-- 5 day forecast here -->
                         <div class="row">
-                            <div class="col-12 border-border">5 Day Forecast
-                              <div class="row" id="future-weather">
+                            <div class="col-12 text-center">5 Day Forecast
+                              <div class="row">
+                                <div class="col-12" id="future-weather">
+
+                                </div>
+                                <!-- <div class="card-body border" id="futurecard">
+                                  <h5>Date</h5>
+                                  <img>Icon</img>
+                                  <p>Temp</p>
+                                  <p>Humidity</p>
+                                </div> -->
                               </div>
                             </div>
                         </div>
