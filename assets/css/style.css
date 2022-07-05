@@ -15,6 +15,10 @@ body {
   color: black;
 }
 
+#future-card {
+  border: 1 solid black;
+}
+
 #searched-city {
   font-size: 20px;
 }
@@ -55,4 +59,23 @@ body {
     color: black;
     transition: all .3s ease-in-out;
   }
-  
+
+.uvLow {
+  background-color: green;
+}
+
+.uvMod {
+  background-color: yellow;
+}
+
+.uvHigh {
+  background-color:red;
+}
+
+.uvVHigh {
+  background-color: fuchsia;
+}
+
+.uvEx {
+  background-color: cyan;
+}

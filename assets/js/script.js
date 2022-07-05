@@ -108,9 +108,22 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
 
             $("#current-icon").attr("src", currentIconURL);
             $("#temp").text(Math.floor(data.current.temp) + " degrees F");
-            $("#humidity").text(data.current.humidity + "%");
+            $("#humidity").text(data.current.humidity + " %");
             $("#wind-speed").text(Math.floor(data.current.wind_speed) + " mph");
             $("#uv-index").text("UVI: " + data.current.uvi);
+
+                if (data.current.uvi >= 0 && data.current.uvi <= 2) {
+                    $("#uv-index").addClass("uvLow")                    
+                } else if (data.current.uvi >= 3 && data.current.uvi <= 5) {
+                    $("#uv-index").addClass("uvMod")                    
+                } else if (data.current.uvi >= 6 && data.current.uvi <= 7) {
+                    $("#uv-index").addClass("uvHigh")
+                } else if (data.current.uvi >= 8 && data.current.uvi <= 10) {
+                    $("#uv-index").addClass("uvVHigh")
+                } else {
+                    $("#uv-index").addClass("uvEx")
+                }
+                
 
             /* $("#temp").append("<div>" + data.current.temp + " &#176F" + "</div>");
             $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
@@ -124,6 +137,8 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
 // 
 
 function getFutureWeather(searchCityLat, searchCityLon) {
+    $("#future-weather").empty();
+
     var key = "5d5fe60d12dae6eed2bd4a396bd88119";
     var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&alerts&appid=${key}`;
     fetch(weatherURL).then(function (response) {
@@ -142,11 +157,11 @@ function getFutureWeather(searchCityLat, searchCityLon) {
             var futureHumidity = data.daily[i].humidity;
             /* console.log(futureHumidity); */
             
-            $("#future-weather").append("<h3>" + futureDate + "</h2");
-            $("#future-weather").append(`<img src=${futureIconURL}></img>`);
-            /* $("#future-icon").attr("src", futureIconURL) */
-            $("#future-weather").append("<p>" + futureTemp + "</p");
-            $("#future-weather").append("<p>" + futureHumidity + "</p");
+            $("#future-weather").append("<div class = 'col-2' id='future-card'></div>")
+            $("#future-card").append("<h5>" + futureDate + "</h5>");
+            $("#future-card").append(`<img src=${futureIconURL}></img>`);
+            $("#future-card").append("<p>" + futureTemp + " degrees F" + "</p");
+            $("#future-card").append("<p>" + futureHumidity + " %" + "</p");
             }
         })
 }
