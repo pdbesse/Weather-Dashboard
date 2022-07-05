@@ -131,18 +131,22 @@ function getFutureWeather(searchCityLat, searchCityLon) {
         .then(function (data) {
             for (i = 1; i < 6; i++) {
 
-            }
-            var futureUnix = data.daily.dt;
-            var futureDate = moment.unix(futureUnix).format("MM/DD/YY")
+            var futureDate = moment.unix(data.daily[i].dt).format("MM/DD/YY")
             console.log(futureDate);
             var futureIcon = data.daily[i].weather[0].icon
             var futureIconURL = `http://openweathermap.org/img/wn/${futureIcon}@2x.png`;
-            console.log(futureIconURL);
+            console.log(futureIcon);
             
             var futureTemp = Math.floor(data.daily[i].temp.day);
-            console.log(futureTemp);
+            /* console.log(futureTemp); */
             var futureHumidity = data.daily[i].humidity;
-            console.log(futureHumidity);
-
-            })
+            /* console.log(futureHumidity); */
+            
+            $("#future-weather").append("<h3>" + futureDate + "</h2");
+            $("#future-weather").append(`<img src=${futureIconURL}></img>`);
+            /* $("#future-icon").attr("src", futureIconURL) */
+            $("#future-weather").append("<p>" + futureTemp + "</p");
+            $("#future-weather").append("<p>" + futureHumidity + "</p");
+            }
+        })
 }
