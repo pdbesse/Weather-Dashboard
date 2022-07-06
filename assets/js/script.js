@@ -98,13 +98,13 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
         return response.json();})
         .then(function (data) {
 
-            console.log(data);
+            /* console.log(data); */
             /* console.log(data.daily[1]); */
-            console.log(data.current);
+            /* console.log(data.current); */
 
             var currentIcon = data.current.weather[0].icon
             var currentIconURL = `http://openweathermap.org/img/wn/${currentIcon}@2x.png`;
-            console.log(currentIconURL);
+            /* console.log(currentIconURL); */
 
             $("#current-icon").attr("src", currentIconURL);
             $("#temp").text(Math.floor(data.current.temp));
@@ -112,11 +112,12 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             $("#wind-speed").text(Math.floor(data.current.wind_speed));
             $("#uv-index").text(data.current.uvi);
 
-                if (data.current.uvi >= 0 && data.current.uvi <= 2) {
-                    $("#uv-index").addClass("uvLow")                    
-                } else if (data.current.uvi >= 3 && data.current.uvi <= 5) {
+                if (data.current.uvi >= 0 && data.current.uvi <= 2.9) {
+                    $("#uv-index").addClass("uvLow")
+                    // need to remove class                    
+                } else if (data.current.uvi >= 3 && data.current.uvi <= 5.9) {
                     $("#uv-index").addClass("uvMod")                    
-                } else if (data.current.uvi >= 6 && data.current.uvi <= 7) {
+                } else if (data.current.uvi >= 6 && data.current.uvi <= 7.9) {
                     $("#uv-index").addClass("uvHigh")
                 } else if (data.current.uvi >= 8 && data.current.uvi <= 10) {
                     $("#uv-index").addClass("uvVHigh")
@@ -124,11 +125,6 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
                     $("#uv-index").addClass("uvEx")
                 }
                 
-
-            /* $("#temp").append("<div>" + data.current.temp + " &#176F" + "</div>");
-            $("#humidity").append("<div>" + data.current.humidity + "%" + "</div>");
-            $("#wind-speed").append("<div>" + data.current.wind_speed + " mph" + "</div>");
-            $("#uv-index").append("<div>" + data.current.uvi + "</div>"); */
     })
         getFutureWeather(searchCityLat, searchCityLon)
 }
@@ -147,21 +143,25 @@ function getFutureWeather(searchCityLat, searchCityLon) {
             for (i = 1; i < 6; i++) {
 
             var futureDate = moment.unix(data.daily[i].dt).format("MM/DD/YY")
-            console.log(futureDate);
+            /* console.log(futureDate); */
             var futureIcon = data.daily[i].weather[0].icon
             var futureIconURL = `http://openweathermap.org/img/wn/${futureIcon}@2x.png`;
-            console.log(futureIcon);
+            /* console.log(futureIcon); */
             
             var futureTemp = Math.floor(data.daily[i].temp.day);
             /* console.log(futureTemp); */
             var futureHumidity = data.daily[i].humidity;
             /* console.log(futureHumidity); */
             
-            $("#future-weather").append("<div class='card-body border' id='future-card'></div>")
-            $("#future-card").append("<h5 class='card-title'>" + futureDate + "</h5>");
-            $("#future-card").append(`<img  class='card-img' src=${futureIconURL}></img>`);
-            $("#future-card").append("<p class='card-text'>" + futureTemp + "\u00b0 F" + "</p");
-            $("#future-card").append("<p class='card-text'>" + futureHumidity + " %" + "</p");
+            // create card, then append info to card, then append card to $future-weather
+            /* var futCard = document.createElement("<div class='card-body border bg-info future-card col'></div>") */
+            var futCard = document.createElement("div")
+                futCard.setAttribute("class", "card-body border bg-info future-card")
+            $(futCard).append("<h5 class='card-title'>" + futureDate + "</h5>");
+            $(futCard).append(`<img  class='card-img' src=${futureIconURL}></img>`);
+            $(futCard).append("<p class='card-text'>" + futureTemp + "\u00b0 F" + "</p");
+            $(futCard).append("<p class='card-text'>" + futureHumidity + " %" + "</p");
+            $("#future-weather").append(futCard);
             }
         })
-}
+} 
