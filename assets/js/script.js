@@ -61,7 +61,7 @@ function search() {
 function getLatLon(searchedCity) {
     // requests lattitude and longitude for a given city
     var key = "5d5fe60d12dae6eed2bd4a396bd88119";
-    var latLonURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&appid=${key}`;
+    var latLonURL = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&appid=${key}`;
 
     // pulls data from URL and returns the response as a json object
     fetch(latLonURL).then(function (response) {
@@ -92,7 +92,7 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             // gets current icon code from response data
             var currentIcon = data.current.weather[0].icon
             // URL to display picture of corresponding icon code
-            var currentIconURL = `http://openweathermap.org/img/wn/${currentIcon}@2x.png`;
+            var currentIconURL = `https://openweathermap.org/img/wn/${currentIcon}@2x.png`;
             /* console.log(currentIconURL); */
             
             // unhides #weather-container element
