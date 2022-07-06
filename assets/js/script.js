@@ -113,15 +113,20 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             $("#uv-index").text(data.current.uvi);
 
                 if (data.current.uvi >= 0 && data.current.uvi <= 2.9) {
+                    $("#uv-index").removeClass()
                     $("#uv-index").addClass("uvLow")
                     // need to remove class                    
                 } else if (data.current.uvi >= 3 && data.current.uvi <= 5.9) {
+                    $("#uv-index").removeClass()
                     $("#uv-index").addClass("uvMod")                    
                 } else if (data.current.uvi >= 6 && data.current.uvi <= 7.9) {
+                    $("#uv-index").removeClass()
                     $("#uv-index").addClass("uvHigh")
                 } else if (data.current.uvi >= 8 && data.current.uvi <= 10) {
+                    $("#uv-index").removeClass()
                     $("#uv-index").addClass("uvVHigh")
                 } else {
+                    $("#uv-index").removeClass()
                     $("#uv-index").addClass("uvEx")
                 }
                 
