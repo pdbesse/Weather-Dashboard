@@ -34,8 +34,6 @@ function search() {
     // for loop to iterate through search history in local storage
     var alreadyExist = false
     for (let i = 0; i < searchedCities.length; i++) {
-       /* console.log(searchedCities[i]);
-       console.log(searchedCity); */
 
         // if a new city searched matches an element in local storage, alreadyExist is true and nothing is done
         if (searchedCities[i] == searchedCity) {
@@ -53,14 +51,10 @@ function search() {
 
     localStorage.setItem("city", JSON.stringify(searchedCities))
 
-    /* console.log(searchedCity);
-    console.log(searchedCities); */
-
     $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
 
     // run getLatLon function for searched city
     getLatLon(searchedCity)
-    
 }
 
 // function to get lat/lon
@@ -73,24 +67,16 @@ function getLatLon(searchedCity) {
     fetch(latLonURL).then(function (response) {
         return response.json();})
         .then(function (data) {
-            /* console.log(data); */
 
             // for loop to return lat and lon data from response object
             for (var i = 0; i < data.length; i++) {
 
-                /* console.log("lat", data[i].lat);
-                console.log("lon", data[i].lon); */
-
                 var searchCityLat = data[i].lat;
                 var searchCityLon = data[i].lon
-
-                /* console.log(searchCityLat);
-                console.log(searchCityLon); */
 
                 getCurrentWeather(searchCityLat, searchCityLon)
             }
         })
-    
 }
 
 // function to get weather using lat / lon data
@@ -102,10 +88,6 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
     fetch(weatherURL).then(function (response) {
         return response.json();})
         .then(function (data) {
-
-            /* console.log(data); */
-            /* console.log(data.daily[1]); */
-            /* console.log(data.current); */
 
             // gets current icon code from response data
             var currentIcon = data.current.weather[0].icon
@@ -164,18 +146,14 @@ function getFutureWeather(searchCityLat, searchCityLon) {
             
             // creates variable for future date from UNIX timestamp
             var futureDate = moment.unix(data.daily[i].dt).format("MM/DD/YY")
-            /* console.log(futureDate); */
 
             // sets future weather icons from for loop and retrieves the icon image links
             var futureIcon = data.daily[i].weather[0].icon
             var futureIconURL = `http://openweathermap.org/img/wn/${futureIcon}@2x.png`;
-            /* console.log(futureIcon); */
             
             // retrieves future weather temperate (rounded down) and humidity for each iteration through the for loop
             var futureTemp = Math.floor(data.daily[i].temp.day);
-            /* console.log(futureTemp); */
             var futureHumidity = data.daily[i].humidity;
-            /* console.log(futureHumidity); */
             
             // creates card, then appends future weather info to card for a given date, then appends card to card element;
             // this is done once for each iteration
