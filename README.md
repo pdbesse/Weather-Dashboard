@@ -25,77 +25,165 @@ The user is presented an empty search box. The user enters a city name and click
 
 ### Code Snippets
 
-```
+``` ruby
 
-var today = moment();
-$("#currentDay").text(today.format("MMMM Do, YYYY"));
+var searchedCity = $("#search-city").val();
+var searchedCities = JSON.parse(localStorage.getItem("city")) || [];
 
-```
+for (let i = 0; i < searchedCities.length; i++) {
 
-This code block creates var "today" from the moment() snapshot. It then locates id "currentDay" in the HTML and assigns var "today" in the format "July 1st, 2022" as text.
+    var newLI = $("<li>")
+    newLI.text(searchedCities[i]).val();
 
-```
+    newLI.on("click", function (event){ 
+        $("#search-city").val(event.target.textContent);
+        search()
+        })
 
-$(".saveBtn").on("click", function() {
-    var calEvent = $(this).siblings("textarea").val();
-    var calEventTime = $(this).siblings(".hour").text();
-    // saves to localStorage
-    localStorage.setItem(calEventTime, calEvent);
-})
-
-```
-
-This code block looks for any click of a button with the class of "saveBtn". It then creates variable "calEvent" by traversing to the button's sibling with the element "textarea" and pulling the value (the entered text). It also creates variable "calEventTime" by traversing to the button's sibling with the class of "hour" and pulling the text in that div. Finally, it saves these two variables as a key and property in localStorage.
-
-```
-
-var realHour = moment().format("H");
-
-$(".hour").each(function (){
-    var currentHour = parseInt($(this).attr("id").split("hour-")[1]);
-
-if (currentHour < realHour) {
-    $(this).siblings(".description").addClass("past"); 
+    $("#search-city-list").append(newLI);
 }
 
-else if (currentHour == realHour) {
-    $(this).siblings(".description").addClass("present");
+```
+
+This code block creates a variable from the city search input text. It creates an array that is either empty or contains elements from the local storage array. For each item in the local storage array, it creates a new li in the search history on the page on a reload of the page. If an li is clicked, it runs the search function.
+
+``` ruby
+
+function search() {
+    var searchedCity = $("#search-city").val();
+
+    var alreadyExist = false
+    for (let i = 0; i < searchedCities.length; i++) {
+
+        if (searchedCities[i] == searchedCity) {
+           alreadyExist = true;
+        }
+    }
+
+        if (!alreadyExist) {
+     searchedCities.push(searchedCity);
+        var newLI = $("<li>")
+        newLI.text(searchedCity)
+        $("#search-city-list").append(newLI);
+    }
+
+    localStorage.setItem("city", JSON.stringify(searchedCities))
+
+    $("#searched-city").html("Current weather for " + searchedCity + " on " + (today.format("MMMM Do, YYYY")));
+
+    getLatLon(searchedCity)
 }
 
-else if (currentHour > realHour) {
-    $(this).siblings(".description").addClass("future");
+```
+
+This code block takes the inputted city text and runs a for loop to determine if the city has already been searched for. If it has, nothing is done. If it hasn't, a new li is added. It then displays the message "Current weather for (searched city) on (today's date).
+
+``` ruby
+
+function getLatLon(searchedCity) {
+
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var latLonURL = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&appid=${key}`;
+
+    fetch(latLonURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+
+            for (var i = 0; i < data.length; i++) {
+
+                var searchCityLat = data[i].lat;
+                var searchCityLon = data[i].lon
+
+                getCurrentWeather(searchCityLat, searchCityLon)
+            }
+        })
 }
-})
 
 ```
 
-This code block first pulls the current hour from the moment() snapshot and creates a variable called "realHour". The function then loops over each instance of class "hour" in the HTML, traverses to its corresponding id, parses the id value (example: "hour-9"), and splits "hour-" from the id value. It creates an array of the numerical value in the id; returns index[1] (the numerical value). It then saves the returned index[1] to variable "currentHour".
+This code block runs a function to get the latitude and longitude coordinates of the searched-for city using an API request. It then creates variables for latitude and longitude and runs the getCurrentWeather function.
 
-If var "currentHour" is less than var "realHour", each instance of "currentHour" will turn red to indicate it is in the past.
+``` ruby
 
-If var "currentHour" is equal to var "realHour", the row will turn green to indicate it is the present hour.
 
-If var "currentHour" is greater than var "realHour", each instance of "currentHour" will turn blue to indicate it is in the future.
+function getCurrentWeather(searchCityLat, searchCityLon) {
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&alerts&appid=${key}`;
 
-Military time is used for the hour id's because of the way moment.js pulls hour data for PM hours.
+    fetch(weatherURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+
+            var currentIcon = data.current.weather[0].icon
+            var currentIconURL = `https://openweathermap.org/img/wn/${currentIcon}@2x.png`;
+            
+            $("#weather-container").removeClass("d-none");
+            $("#current-icon").attr("src", currentIconURL);
+            $("#temp").text(Math.floor(data.current.temp));
+            $("#humidity").text(data.current.humidity);
+            $("#wind-speed").text(Math.floor(data.current.wind_speed));
+            $("#uv-index").text(data.current.uvi);
+
+                if (data.current.uvi >= 0 && data.current.uvi <= 2.9) {
+                    $("#uv-index").removeClass()
+                    $("#uv-index").addClass("uvLow")                   
+                } else if (data.current.uvi >= 3 && data.current.uvi <= 5.9) {
+                    $("#uv-index").removeClass()
+                    $("#uv-index").addClass("uvMod")                    
+                } else if (data.current.uvi >= 6 && data.current.uvi <= 7.9) {
+                    $("#uv-index").removeClass()
+                    $("#uv-index").addClass("uvHigh")
+                } else if (data.current.uvi >= 8 && data.current.uvi <= 10) {
+                    $("#uv-index").removeClass()
+                    $("#uv-index").addClass("uvVHigh")
+                } else {
+                    $("#uv-index").removeClass()
+                    $("#uv-index").addClass("uvEx")
+                }
+                
+    })
+        getFutureWeather(searchCityLat, searchCityLon)
+}
 
 ```
 
-$("#hour-9").siblings("textarea").text(localStorage.getItem("9 AM"));
-$("#hour-10").siblings("textarea").text(localStorage.getItem("10 AM"));
-$("#hour-11").siblings("textarea").text(localStorage.getItem("11 AM"));
-$("#hour-12").siblings("textarea").text(localStorage.getItem("12 PM"));
-$("#hour-13").siblings("textarea").text(localStorage.getItem("1 PM"));
-$("#hour-14").siblings("textarea").text(localStorage.getItem("2 PM"));
-$("#hour-15").siblings("textarea").text(localStorage.getItem("3 PM"));
-$("#hour-16").siblings("textarea").text(localStorage.getItem("4 PM"));
-$("#hour-17").siblings("textarea").text(localStorage.getItem("5 PM"));
+This code block takes the returned latitude and longitude coordinates and returns weather data for those coordinates (the searched-for city). It then parses out the desired weather data (weather icon, temperature, humidty, wind speed, and UV index) and renders them to the HTML. It then displays different colored backgrounds on the UV Index HTML element based on severity levels. Finally, it runs the getFutureWeather function.
 
-```
+``` ruby
 
-This code block allows the entered data to persist in each field on page reload.  Each line locates a specific id (example: "#hour-9), traverses to the sibling with element "textarea", and loads the property (var "CalEvent") from the corresponding key (var "calEventTime") in localStorage.
+function getFutureWeather(searchCityLat, searchCityLon) {
+    $("#future-weather").empty();
 
-Military time is used for the hour id's because of the way moment.js pulls hour data for PM hours.
+    var key = "5d5fe60d12dae6eed2bd4a396bd88119";
+    var weatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${searchCityLat}&lon=${searchCityLon}&units=imperial&alerts&appid=${key}`;
+
+    fetch(weatherURL).then(function (response) {
+        return response.json();})
+        .then(function (data) {
+            for (i = 1; i < 6; i++) {
+            
+            var futureDate = moment.unix(data.daily[i].dt).format("MM/DD/YY")
+
+            var futureIcon = data.daily[i].weather[0].icon
+            var futureIconURL = `http://openweathermap.org/img/wn/${futureIcon}@2x.png`;
+            
+            var futureTemp = Math.floor(data.daily[i].temp.day);
+            var futureHumidity = data.daily[i].humidity;
+            
+            var futCard = document.createElement("div")
+                futCard.setAttribute("class", "card-body border border-dark bg-info future-card")
+            $(futCard).append("<h5 class='card-title'>" + futureDate + "</h5>");
+            $(futCard).append(`<img  class='card-img' src=${futureIconURL}></img>`);
+            $(futCard).append("<p class='card-text'>" + futureTemp + "\u00b0 F" + "</p");
+            $(futCard).append("<p class='card-text'>" + futureHumidity + " %" + "</p");
+            $("#future-weather").append(futCard);
+            }
+        })
+} 
+
+``` 
+
+Similarly to the getCurrentWeather function, this code block makes an API request for weather data for the latitude and longitude coordinates. A for loop requests the data for indexes 1 through 6 (the 5 days following index[0], or "today"). It then pulls the date, weather icon, temperature, and humidity forecast for each of the 5 days.  Finally, it renders a card for each day, appends the relevant weather data, and renders the cards to the HTML.
 
 ## Technology
 
@@ -109,29 +197,31 @@ Technology Used:
 * [moment.js](https://momentjs.com/)
 * [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 * [W3 CSS](https://www.w3.org/Style/CSS/Overview.en.html)
+* [One Call API 1.0](https://openweathermap.org/api/one-call-api)
+* [Geocoding API](https://openweathermap.org/api/geocoding-api)
 
 ## Credits
 
-All coding credited to Phillip Besse.  Javascript pseudocoded with tutor Joe Young.
+All coding credited to Phillip Besse.  Javascript pseudocoded with tutor Joem Casusi and TA Manuel Nunes.
 
 Websites Referenced:
-* [jQuery - .text()](https://api.jquery.com/text/)
-* [W3 Schools - jQuery event.target](https://www.w3schools.com/jquery/event_target.asp) (early versions of .js)
-* [jQuery - event.target](https://api.jquery.com/event.target/) (early versions of .js)
-* [jQuery - .each](https://api.jquery.com/each/)
-* [moment.js - Display](https://momentjs.com/docs/#/displaying/)
-* [jQuery - DOM Traversal](https://api.jquery.com/category/traversing/)
-* [jQuery - .addClass](https://api.jquery.com/addclass/)
-* [MDN Web Docs - split()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split)
-* [GeeksForGeeks - moment.hour() method](https://www.geeksforgeeks.org/moment-js-moment-hour-method/)
-* [TechOnTheNet - split()](https://www.techonthenet.com/js/string_split.php)
-* [MDN Web Docs - localStorage.getItem](https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem)
+* [MDN Web Docs - Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+* [Toptal - HTML and Unicode codes for degree symbol](https://www.toptal.com/designers/htmlarrows/math/degree-sign/)
+* [Moment.js - UNIX](https://momentjscom.readthedocs.io/en/latest/moment/01-parsing/08-unix-timestamp/)
+* [Stack - Converting UNIX](https://stackoverflow.com/questions/20943089/how-to-convert-unix-timestamp-to-calendar-date-moment-js)
+* [BobbyHadz - Check if value is between two numbers](https://bobbyhadz.com/blog/javascript-check-if-number-between-two-numbers)
+* [EPA.gov - UV Index Severity Chart](https://www.epa.gov/enviro/uv-index-description)
+* [GDI Chicago - Unicode Degree Symbol](http://gdichicago.com/courses/gdi-featured-js-intro/homework.html#:~:text=Unicode%20Characters%3A%20To%20print%20the,character%20for%20the%20degress%20symbol.)
+* [Bootstrap - Cards](https://getbootstrap.com/docs/4.4/components/card/)
+* [Bootstrap - Hiding Elements](https://getbootstrap.com/docs/4.0/utilities/display/))
+* [One Call API 1.0](https://openweathermap.org/api/one-call-api)
+* [Geocoding API](https://openweathermap.org/api/geocoding-api)
 
 
 
 ## License
 
-Phillip Besse's Work Day Scheduler is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+Phillip Besse's Weather Dashboard is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
 MIT License
 
