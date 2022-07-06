@@ -26,7 +26,7 @@
   <body>
     <header class="jumbotron text-container">
       <h1 class="display-3">Weather Dashboard</h1>
-      <p class="lead">Search current and future weather for your city</p>
+      <p class="lead">Search current and future weather for any city</p>
       <p id="currentDay" class="lead"></p>
     </header>
 
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12 border border-dark">
+                        <div class="col-12 border-top border-dark">
                             <!-- searched cities button box -->
                             <ul id="search-city-list">
                             <!-- searched cities go here -->
@@ -55,10 +55,10 @@
                 </div>
 
             <!-- right side: current weather top and 5 day forecast bottom -->
-                <div class="col-8 border border-dark">
+                <div class="col-8 border border-dark d-none" id="weather-container">
                     <!-- searched city and current weather -->
                     <div class="row">
-                        <div class="col-12 border border-dark">
+                        <div class="col-12 border-top border-bottom border-dark searched-city">
                             <div class="text-center col-12" id="searched-city">
                             </div>
                               <div class="text-center">
@@ -92,22 +92,16 @@
 
                         </div>
                         <!-- 5 day forecast here -->
-                        <div class="row">
-                            <div class="col-12 text-center">5 Day Forecast
-                              <div class="row">
-                                <div class="col-12" id="future-weather">
-
-                                </div>
-                                <!-- <div class="card-body border" id="futurecard">
-                                  <h5>Date</h5>
-                                  <img>Icon</img>
-                                  <p>Temp</p>
-                                  <p>Humidity</p>
-                                </div> -->
-                              </div>
-                            </div>
+                        <div class="col-12 text-center futfore searched-city">5 Day Forecast
+                          <div class="row mt-2" id="future-weather">
+                            <!-- <div class="card-body border" id="futurecard">
+                              <h5>Date</h5>
+                              <img>Icon</img>
+                              <p>Temp</p>
+                              <p>Humidity</p>
+                            </div> -->
+                          </div>
                         </div>
-
                     </div>
                 </div>
         </div>

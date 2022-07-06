@@ -105,7 +105,8 @@ function getCurrentWeather(searchCityLat, searchCityLon) {
             var currentIcon = data.current.weather[0].icon
             var currentIconURL = `http://openweathermap.org/img/wn/${currentIcon}@2x.png`;
             /* console.log(currentIconURL); */
-
+            
+            $("#weather-container").removeClass("d-none");
             $("#current-icon").attr("src", currentIconURL);
             $("#temp").text(Math.floor(data.current.temp));
             $("#humidity").text(data.current.humidity);
@@ -161,7 +162,7 @@ function getFutureWeather(searchCityLat, searchCityLon) {
             // create card, then append info to card, then append card to $future-weather
             /* var futCard = document.createElement("<div class='card-body border bg-info future-card col'></div>") */
             var futCard = document.createElement("div")
-                futCard.setAttribute("class", "card-body border bg-info future-card")
+                futCard.setAttribute("class", "card-body border border-dark bg-info future-card")
             $(futCard).append("<h5 class='card-title'>" + futureDate + "</h5>");
             $(futCard).append(`<img  class='card-img' src=${futureIconURL}></img>`);
             $(futCard).append("<p class='card-text'>" + futureTemp + "\u00b0 F" + "</p");

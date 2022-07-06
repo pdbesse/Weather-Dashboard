@@ -1,9 +1,9 @@
 body {
-    background-color: #949494;
+    background-color: #fff78e;
 }
 
 #search-container {
-    background: #d6d6d6;
+    background: #ffcd93;
     border: 1px solid black;
 }
 
@@ -15,11 +15,15 @@ body {
   color: black;
 }
 
-#future-card {
-  border: 1 solid black;
+#searched-city {
+  font-size: 20px;
 }
 
-#searched-city {
+.searched-city {
+  background: #ffcd93;
+}
+
+.futfore {
   font-size: 20px;
 }
 
@@ -39,25 +43,10 @@ body {
   
 .jumbotron {
     text-align: center;
-    background-color: #887491;
+    background-color: #ffcd93;
     color: black;
     border-radius: 0;
     border-bottom: 5px solid black;
-  }
-  
-  
-.saveBtn {
-    border-left: 1px solid black;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    background-color: #06AED5;
-    color: white;
-  }
-  
-.saveBtn:hover {
-    background: #06afd548;
-    color: black;
-    transition: all .3s ease-in-out;
   }
 
 .uvLow {
